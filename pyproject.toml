@@ -1,7 +1,7 @@
 [project]
-name = "aranet"
+name = "aranet4-graphs"
 version = "0.1.0"
-description = "Add your description here"
+description = "Python scripts to periodically update a db with co2 measures from aranet4 and to plot all the history."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
