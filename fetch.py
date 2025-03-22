@@ -42,7 +42,7 @@ def main():
             history = aranet4.client.get_all_records(device_mac, entry_filter)
             break
         except Exception as e:
-            print('attempt', attempt, 'failed, retrying:', e)
+            print(f"Failed attempt {attempt+1}, retrying. Error: {e}")
 
     data = []
     if history is not None:
@@ -58,13 +58,16 @@ def main():
                 entry.pressure,
                 entry.co2
             ))
-        print('fetched', len(data), 'measurements', entry_filter)
+
+        print(f"Fetched {len(data)} measurements in range:")
+        print(f"  start: {entry_filter['start'].isoformat()}")
+        print(f"  end:   {entry_filter['end'].isoformat()}")
         cur.executemany(
             'INSERT OR IGNORE INTO measurements VALUES(?, ?, ?, ?, ?, ?)', data
         )
         con.commit()
     else:
-        print('failed to fetch measurements')
+        print('Quitting, failed to fetch measurements.')
 
     con.close()
 
