@@ -10,8 +10,8 @@ def format_time(timestamp):
     return local_dt.strftime('%Y-%m-%d %H:%M:%S %z')
 
 
-def main(tail: int = 30, head: int = 1):
-    db_path = os.path.join(os.path.expanduser('~'), 'Documents/aranet4.db')
+def main(tail: int = 30, head: int = 1, db_path: str = "~/Documents/aranet4.db"):
+    db_path  = os.path.expanduser(db_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     _ = cur.execute(
