@@ -2,6 +2,7 @@ import os
 import datetime
 import sqlite3
 from zoneinfo import ZoneInfo
+import fire
 
 def format_time(timestamp):
     dt = datetime.datetime.fromtimestamp(timestamp, tz=datetime.timezone.utc)
@@ -9,7 +10,7 @@ def format_time(timestamp):
     return local_dt.strftime('%Y-%m-%d %H:%M:%S %z')
 
 
-def main():
+def main(tail: int = 30, head: int = 1):
     db_path = os.path.join(os.path.expanduser('~'), 'Documents/aranet4.db')
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -26,17 +27,24 @@ def main():
 
     rows = cur.fetchall()
 
-    for row in rows:
+    def print_row(row):
         row = list(row)
         row[1] = format_time(row[1])
         print(' | '.join(str(value) for value in row))
 
-    print(f"Number of measurements: {len(rows)}")
+    for i, row in enumerate(rows):
+        if i < head:
+            print_row(row)
+        elif i == head and head != 0:
+            print("...")
+        elif i >= len(rows) - tail:
+            print_row(row)
+
+    print(f"\nPrinted ({head}+{tail}) of {len(rows)} measurements.")
 
     con.close()
 
 
 if __name__ == "__main__":
-    main()
-
+    fire.Fire(main)
 
