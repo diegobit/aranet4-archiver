@@ -4,14 +4,15 @@ import sqlite3
 from zoneinfo import ZoneInfo
 
 import aranet4
+import fire
 
 
-def main():
+def main(db_path="~/Documents/aranet4.db"):
+    db_path = os.path.expanduser(db_path)
     num_retries = 10
     device_name = "camera"
     device_mac = '11A2FFE6-EC4D-D53D-9695-EA19DCE33F63'
 
-    db_path = os.path.join(os.path.expanduser('~'), 'Documents/aranet4.db')
     entry_filter = {}
 
     con = sqlite3.connect(db_path)
@@ -73,5 +74,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    fire.Fire(main)
 
