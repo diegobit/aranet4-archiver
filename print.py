@@ -15,7 +15,7 @@ def format_time(timestamp, local_timezone):
     return local_dt.strftime('%Y-%m-%d %H:%M:%S %z')
 
 
-def main(n: int = 30):
+def main(oldest: bool = False, n: int = 10):
     db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
     local_timezone = os.getenv("LOCAL_TIMEZONE", "")
 
@@ -29,11 +29,13 @@ def main(n: int = 30):
 
     con = sqlite3.connect(db_path)
     cur = con.cursor()
+    order = "ASC" if oldest else "DESC"
     _ = cur.execute(
-        '''
+        f"""
         SELECT device, timestamp, temperature, humidity, pressure, CO2 FROM measurements
-        ORDER BY timestamp
-        '''
+        ORDER BY timestamp {order}
+        LIMIT {n}
+        """
     )
 
     column_names = [description[0] for description in cur.description]
@@ -42,16 +44,10 @@ def main(n: int = 30):
 
     rows = cur.fetchall()
 
-    def print_row(row):
+    for row in rows:
         row = list(row)
         row[1] = format_time(row[1], local_timezone)
         print(' | '.join(str(value) for value in row))
-
-    for i, row in enumerate(rows):
-        if i >= len(rows) - n:
-            print_row(row)
-
-    print(f"\nPrinted {n} of {len(rows)} measurements.")
 
     con.close()
 
