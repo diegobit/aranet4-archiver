@@ -19,6 +19,14 @@ def main(n: int = 30):
     db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
     local_timezone = os.getenv("LOCAL_TIMEZONE", "")
 
+    if not os.path.exists(db_path):
+        print(f"Error: Database file not found at {db_path}")
+        return
+
+    if not local_timezone:
+        print("local_timezone not set. Have you configured .env ?")
+        return
+
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     _ = cur.execute(

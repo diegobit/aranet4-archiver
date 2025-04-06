@@ -16,7 +16,7 @@ SENSOR_PLOT_CONFIG = {
     'temperature': {'color': 'red', 'unit': '°C'},
     'humidity': {'color': 'blue', 'unit': '%'},
     'pressure': {'color': 'green', 'unit': 'hPa'},
-    'CO2': {'color': 'purple', 'unit': 'ppm'} # Use lowercase key consistent with parsing
+    'CO2': {'color': 'purple', 'unit': 'ppm'}
 }
 
 
@@ -39,6 +39,10 @@ def main(
 
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at {db_path}")
+        return
+
+    if not local_timezone:
+        print("local_timezone not set. Have you configured .env ?")
         return
 
     # --- 1. Parse and validate sensors ---

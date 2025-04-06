@@ -21,6 +21,18 @@ def main(num_retries: int = 3):
     device_name = os.getenv('DEVICE_NAME')
     device_mac = os.getenv('DEVICE_MAC')
 
+    if not os.path.exists(db_path):
+        print(f"Error: Database file not found at {db_path}")
+        return
+
+    if not device_name or device_name == "XXX":
+        print("device_name not set. Have you configured .env ?")
+        return
+
+    if not device_mac or device_mac == "XXX":
+        print("device_mac not set. Have you configured .env ?")
+        return
+
     logging.info(f"Start fetching from {device_name} into db at {db_path}")
 
     entry_filter = {}
