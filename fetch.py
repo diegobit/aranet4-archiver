@@ -1,15 +1,21 @@
 from datetime import datetime, timezone
 import os
-import sqlite3
 from zoneinfo import ZoneInfo
-
+import logging
+import sqlite3
 import aranet4
 import fire
+
+logging.basicConfig(
+    format='[%(asctime)s] %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 
 def main(db_path="~/Documents/aranet4.db"):
     db_path = os.path.expanduser(db_path)
-    num_retries = 10
+    num_retries = 3
     device_name = "camera"
     device_mac = '11A2FFE6-EC4D-D53D-9695-EA19DCE33F63'
 
@@ -43,7 +49,7 @@ def main(db_path="~/Documents/aranet4.db"):
             history = aranet4.client.get_all_records(device_mac, entry_filter)
             break
         except Exception as e:
-            print(f"Failed attempt {attempt+1}, retrying. Error: {e}")
+            logging.warning(f"Failed attempt {attempt+1}, retrying. Error: {e}")
 
     data = []
     if history is not None:
@@ -60,15 +66,15 @@ def main(db_path="~/Documents/aranet4.db"):
                 entry.co2
             ))
 
-        print(f"Fetched {len(data)} measurements in range:")
-        print(f"  start: {entry_filter['start'].isoformat()}")
-        print(f"  end:   {entry_filter['end'].isoformat()}")
+        logging.info(f"Fetched {len(data)} measurements in range:")
+        logging.info(f"  start: {entry_filter['start'].isoformat()}")
+        logging.info(f"  end:   {entry_filter['end'].isoformat()}")
         cur.executemany(
             'INSERT OR IGNORE INTO measurements VALUES(?, ?, ?, ?, ?, ?)', data
         )
         con.commit()
     else:
-        print('Quitting, failed to fetch measurements.')
+        logging.warning('Quitting, failed to fetch measurements.')
 
     con.close()
 
