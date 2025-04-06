@@ -7,6 +7,8 @@ Features:
 - Plot history with `plot.db`
 - Quickly print measurements with `print.py`
 
+This has been built upon [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python). If you are new to aranet4 scripting, first have a look at that repo before using this one.
+
 ## Quickstart
 
 ### Install
@@ -19,6 +21,7 @@ Features:
 **To fetch measurements**
 
 - Setup sensor name and MAC address in `.env`, then other scripts have good defaults.
+    - You can find the MAC address with `aranetctl --scan` from [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python)
 - Use `fetch.py` to fetch the data from the aranet4 device and update a local sqlite db `~/Documents/aranet4.db`
 
 **To see fetched measurements**
