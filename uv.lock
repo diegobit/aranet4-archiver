@@ -13,7 +13,7 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/01/c0/a2d5f032de3b25e99d39a67fc0b0f1a7fbb5964189a53910a57f5d23cac9/aranet4-2.5.1.tar.gz", hash = "sha256:345152ad49f07362d9ecd1aad60406e8126dafca484e7796bc8b1eece6990c99", size = 18581 }
 
 [[package]]
-name = "aranet4-graphs"
+name = "aranet4-archiver"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

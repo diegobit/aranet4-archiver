@@ -1,5 +1,5 @@
 [project]
-name = "aranet4-graphs"
+name = "aranet4-archiver"
 version = "0.1.0"
 description = "Python scripts to periodically update a db with co2 measures from aranet4 and to plot all the history."
 readme = "README.md"
