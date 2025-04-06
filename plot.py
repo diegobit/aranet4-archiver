@@ -29,10 +29,9 @@ def main(
     Plots sensor data from an Aranet4 SQLite database.
 
     Args:
-        start_date: Start date for the data range (YYYY-MM-DD). Defaults to 7 days before the latest record.
-        end_date: End date for the data range (YYYY-MM-DD). Defaults to the latest record.
-        sensors: Comma-separated list of sensors to plot (e.g., "temperature,CO2").
-                 Valid sensors: temperature, humidity, pressure, co2. Defaults to "CO2".
+        start_date: Start date for the data range (YYYY-MM-DD). Defaults to 7 days before now.
+        end_date: End date for the data range (YYYY-MM-DD). Defaults to now.
+        sensors: Comma-separated list of sensors to plot (e.g., "temperature,CO2"). Valid sensors: temperature, humidity, pressure, co2.
     """
     db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
     local_timezone = os.getenv("LOCAL_TIMEZONE", "")
