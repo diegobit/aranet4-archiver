@@ -44,7 +44,9 @@ def main(
         print("local_timezone not set. Have you configured .env ?")
         return
 
-    if isinstance(sensors, str):
+    if isinstance(sensors, tuple):
+        sensor_list = sensors
+    else:
         sensor_list = [sensors]
 
     # --- 1. Parse and validate sensors ---
