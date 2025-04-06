@@ -16,11 +16,10 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-def main():
+def main(num_retries: int = 3):
     db_path = os.path.expanduser(os.getenv("DB_PATH", "~/Documents/araner4.db"))
     device_name = os.getenv('DEVICE_NAME')
     device_mac = os.getenv('DEVICE_MAC')
-    num_retries = int(os.getenv("NUM_RETRIES", "3"))
 
     entry_filter = {}
 
