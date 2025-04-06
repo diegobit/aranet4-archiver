@@ -21,6 +21,8 @@ def main(num_retries: int = 3):
     device_name = os.getenv('DEVICE_NAME')
     device_mac = os.getenv('DEVICE_MAC')
 
+    logging.info(f"Start fetching from {device_name} into db at {db_path}")
+
     entry_filter = {}
 
     con = sqlite3.connect(db_path)
@@ -68,9 +70,7 @@ def main(num_retries: int = 3):
                 entry.co2
             ))
 
-        logging.info(f"Fetched {len(data)} measurements in range:")
-        logging.info(f"  start: {entry_filter['start'].isoformat()}")
-        logging.info(f"  end:   {entry_filter['end'].isoformat()}")
+        logging.info(f"Fetched {len(data)} measurements in range: ({entry_filter['start'].isoformat()}, {entry_filter['end'].isoformat()})")
         cur.executemany(
             'INSERT OR IGNORE INTO measurements VALUES(?, ?, ?, ?, ?, ?)', data
         )
