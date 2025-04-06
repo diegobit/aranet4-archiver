@@ -44,8 +44,11 @@ def main(
         print("local_timezone not set. Have you configured .env ?")
         return
 
+    if isinstance(sensors, str):
+        sensor_list = [sensors]
+
     # --- 1. Parse and validate sensors ---
-    requested_sensors = [s.strip().lower().replace('co2', 'CO2') for s in sensors]
+    requested_sensors = [s.strip().lower().replace('co2', 'CO2') for s in sensor_list]
     valid_sensors = list(SENSOR_PLOT_CONFIG.keys())
     selected_sensors = []
     for sensor in requested_sensors:
