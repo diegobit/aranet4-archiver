@@ -21,18 +21,25 @@ SENSOR_PLOT_CONFIG = {
 
 
 def main(
+    sensors: str = "CO2",
+    days: int = 3,
     start_date: str = "",
     end_date: str = "",
-    sensors: str = "CO2",
+    max_measures: int = 2000,
 ):
     """
     Plots sensor data from an Aranet4 SQLite database.
 
     Args:
-        start_date: Start date for the data range (YYYY-MM-DD). Defaults to 7 days before now.
-        end_date: End date for the data range (YYYY-MM-DD). Defaults to now.
         sensors: Comma-separated list of sensors to plot (e.g., "temperature,CO2"). Valid sensors: temperature, humidity, pressure, co2.
+        days: Plot last n days. Defaults to 3. Cannot be passed with either `start_date` or `end_date`.
+        start_date: Start date for the data range (YYYY-MM-DD). Defaults to 3 days before now. Overrides `days`.
+        end_date: End date for the data range (YYYY-MM-DD). Defaults to now.
+        max_measures: limit number of measures to plot to this value.
     """
+    if start_date:
+        print("Passed start_date. `days` argument won't be used.")
+
     db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
     local_timezone = os.getenv("LOCAL_TIMEZONE", "")
 
@@ -85,7 +92,7 @@ def main(
                 return
 
         if not start_date:
-             query_start_utc = (query_end_utc - timedelta(days=7+1)) # Start of day 30 days prior
+             query_start_utc = (query_end_utc - timedelta(days=days+1))
         else:
             try:
                # User specified start_date, use start of that day in UTC
@@ -112,6 +119,12 @@ def main(
         # Read data using pandas, ensuring timestamp parsing
         con = sqlite3.connect(db_path)
         df = pd.read_sql_query(query, con, params=params, parse_dates=['timestamp'])
+
+        while len(df) > max_measures:
+            print(f"Too many measures: {len(df)}. Discarding one every two. --max-measures={max_measures}")
+            df = df.iloc[::2]
+        print(f"Plotting {len(df)} measures.")
+
         con.close()
 
     except sqlite3.Error as e:
