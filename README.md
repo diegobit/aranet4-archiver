@@ -1,4 +1,11 @@
-# aranet4-graphs
+# aranet4-archiver
+
+I built this to have the full history of measurements from an aranet4 CO2 sensor and be able to quickly plot them.
+
+Features:
+- Automatically fetch measurements with a LaunchAgent and store into a local sqlite3 db by running `fetch.py`
+- Plot history with `plot.db`
+- Quickly print measurements with `print.py`
 
 ## Quickstart
 
