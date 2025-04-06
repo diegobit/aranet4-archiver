@@ -17,7 +17,7 @@
 **To see fetched measurements**
 
 - Use `plot.py` to plot measurements. Defaults to CO2, run with `--help to see all options`
-- Use `tail.py` or `head.py` to see latest or oldest measurements.
+- Use `print.py` to quickly print most recent measurements. Can print oldest with `--oldest` or more measurements with `--n`
 
 ## How to run as a background job
 
