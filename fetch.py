@@ -2,9 +2,13 @@ from datetime import datetime, timezone
 import os
 from zoneinfo import ZoneInfo
 import logging
+
+from dotenv import load_dotenv
 import sqlite3
 import aranet4
 import fire
+
+load_dotenv()
 
 logging.basicConfig(
     format='[%(asctime)s] %(message)s',
@@ -12,12 +16,11 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-
-def main(db_path="~/Documents/aranet4.db"):
-    db_path = os.path.expanduser(db_path)
-    num_retries = 3
-    device_name = "camera"
-    device_mac = '11A2FFE6-EC4D-D53D-9695-EA19DCE33F63'
+def main():
+    db_path = os.path.expanduser(os.getenv("DB_PATH", "~/Documents/araner4.db"))
+    device_name = os.getenv('DEVICE_NAME')
+    device_mac = os.getenv('DEVICE_MAC')
+    num_retries = int(os.getenv("NUM_RETRIES", "3"))
 
     entry_filter = {}
 

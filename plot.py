@@ -1,12 +1,16 @@
-import traceback
-import fire
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import sqlite3
 import os
+import sqlite3
+import traceback
 from datetime import datetime, timedelta, timezone
 
+from dotenv import load_dotenv
+import fire
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+load_dotenv()
 
 SENSOR_PLOT_CONFIG = {
     'temperature': {'color': 'red', 'unit': '°C'},
@@ -17,24 +21,22 @@ SENSOR_PLOT_CONFIG = {
 
 
 def main(
-    db_path: str = "~/Documents/aranet4.db",
     start_date: str = "",
     end_date: str = "",
     sensors: str = "CO2",
-    plot_timezone: str = 'Europe/Rome'
 ):
     """
     Plots sensor data from an Aranet4 SQLite database.
 
     Args:
-        db_path: Path to the SQLite database file.
         start_date: Start date for the data range (YYYY-MM-DD). Defaults to 7 days before the latest record.
         end_date: End date for the data range (YYYY-MM-DD). Defaults to the latest record.
         sensors: Comma-separated list of sensors to plot (e.g., "temperature,CO2").
                  Valid sensors: temperature, humidity, pressure, co2. Defaults to "CO2".
-        plot_timezone: Timezone for displaying the timestamps on the plot (e.g., 'Europe/Rome', 'UTC').
     """
-    db_path = os.path.expanduser(db_path)
+    db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
+    local_timezone = os.getenv("LOCAL_TIMEZONE", "")
+
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at {db_path}")
         return
@@ -68,7 +70,7 @@ def main(
             try:
                 end_dt_naive = datetime.strptime(end_date, '%Y-%m-%d')
                 # Assume user provides date in local time, convert to UTC for query end
-                end_dt_aware = pd.Timestamp(end_dt_naive).tz_localize(plot_timezone).tz_convert('UTC')
+                end_dt_aware = pd.Timestamp(end_dt_naive).tz_localize(local_timezone).tz_convert('UTC')
                 query_end_utc = (end_dt_aware.normalize() + timedelta(days=1)).to_pydatetime() # End of day
             except ValueError:
                 print(f"Error: Invalid end_date format '{end_date}'. Use YYYY-MM-DD.")
@@ -81,7 +83,7 @@ def main(
                # User specified start_date, use start of that day in UTC
                start_dt_naive = datetime.strptime(start_date, '%Y-%m-%d')
                # Assume user provides date in local time, convert to UTC for query start
-               start_dt_aware = pd.Timestamp(start_dt_naive).tz_localize(plot_timezone).tz_convert('UTC')
+               start_dt_aware = pd.Timestamp(start_dt_naive).tz_localize(local_timezone).tz_convert('UTC')
                query_start_utc = (start_dt_aware.normalize() + timedelta(days=1)).to_pydatetime() # Start of day
             except ValueError:
                print(f"Error: Invalid start_date format '{start_date}'. Use YYYY-MM-DD.")
@@ -95,7 +97,7 @@ def main(
         WHERE timestamp >= ? AND timestamp < ?
         ORDER BY timestamp;
         """
-        params = (int(query_start_utc.timestamp()), int(query_end_utc.timestamp()))
+        params = [int(query_start_utc.timestamp()), int(query_end_utc.timestamp())]
 
         print(f"Querying data between {query_start_utc.strftime('%Y-%m-%d %H:%M:%S')} UTC and {query_end_utc.strftime('%Y-%m-%d %H:%M:%S')} UTC...")
 
@@ -125,10 +127,10 @@ def main(
 
     # Convert timestamp to the desired timezone for plotting
     try:
-        df['timestamp'] = df['timestamp'].dt.tz_convert(plot_timezone)
-        display_tz_name = plot_timezone
+        df['timestamp'] = df['timestamp'].dt.tz_convert(local_timezone)
+        display_tz_name = local_timezone
     except Exception as tz_error:
-        print(f"Warning: Could not convert timezone to '{plot_timezone}': {tz_error}. Plotting in UTC.")
+        print(f"Warning: Could not convert timezone to '{local_timezone}': {tz_error}. Plotting in UTC.")
         display_tz_name = 'UTC' # Keep it in UTC if conversion fails
 
     # --- 5. Plotting ---
@@ -164,7 +166,7 @@ def main(
     fig.suptitle(f'Sensor Readings from {os.path.basename(db_path)}\n({start_display} to {end_display})', fontsize=14)
 
     # Improve layout
-    plt.tight_layout(rect=[0, 0.03, 1, 0.96]) # Adjust layout to make room for suptitle
+    plt.tight_layout(rect=(0, 0.03, 1, 0.96)) # Adjust layout to make room for suptitle
 
     # Show the plot
     plt.show()

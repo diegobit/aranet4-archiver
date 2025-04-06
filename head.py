@@ -2,16 +2,23 @@ import os
 import datetime
 import sqlite3
 from zoneinfo import ZoneInfo
+
+from dotenv import load_dotenv
 import fire
 
-def format_time(timestamp):
+load_dotenv()
+
+
+def format_time(timestamp, local_timezone):
     dt = datetime.datetime.fromtimestamp(timestamp, tz=datetime.timezone.utc)
-    local_dt = dt.astimezone(ZoneInfo("Europe/Rome"))
+    local_dt = dt.astimezone(ZoneInfo(local_timezone))
     return local_dt.strftime('%Y-%m-%d %H:%M:%S %z')
 
 
-def main(tail: int = 30, head: int = 1, db_path: str = "~/Documents/aranet4.db"):
-    db_path  = os.path.expanduser(db_path)
+def main(n: int = 30):
+    db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
+    local_timezone = os.getenv("LOCAL_TIMEZONE", "")
+
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     _ = cur.execute(
@@ -29,18 +36,14 @@ def main(tail: int = 30, head: int = 1, db_path: str = "~/Documents/aranet4.db")
 
     def print_row(row):
         row = list(row)
-        row[1] = format_time(row[1])
+        row[1] = format_time(row[1], local_timezone)
         print(' | '.join(str(value) for value in row))
 
     for i, row in enumerate(rows):
-        if i < head:
-            print_row(row)
-        elif i == head and head != 0:
-            print("...")
-        elif i >= len(rows) - tail:
+        if i < n:
             print_row(row)
 
-    print(f"\nPrinted ({head}+{tail}) of {len(rows)} measurements.")
+    print(f"\nPrinted {n} of {len(rows)} measurements.")
 
     con.close()
 
