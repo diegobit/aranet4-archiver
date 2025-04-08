@@ -20,14 +20,14 @@ This has been built upon [Aranet4-Python](https://github.com/Anrijs/Aranet4-Pyth
 
 **To fetch measurements**
 
-- Setup sensor name and MAC address in `.env`, then other scripts have good defaults.
-    - You can find the MAC address with `aranetctl --scan` from [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python)
-- Use `fetch.py` to fetch the data from the aranet4 device and update a local sqlite db `~/Documents/aranet4.db`
+- Setup sensor name and MAC address in `.env` - other scripts should have good defaults.
+    - Note: you can find the MAC address with `aranetctl --scan` from [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python)
+- Use `fetch.py` to fetch the data from the aranet4 device and update a local sqlite db (default is `~/Documents/aranet4.db`)
 
 **To see fetched measurements**
 
-- Use `plot.py` to plot measurements. Defaults to CO2, run with `--help to see all options`
-- Use `print.py` to quickly print most recent measurements. Can print oldest with `--oldest` or more measurements with `--n`
+- Use `plot.py` to plot measurements. Defaults to CO2 of last 3 days, run with `--help` to see all options.
+- Use `print.py` to quickly print the 10 most recent measurements. Can print oldest with `--oldest` or more measurements with `--n`
 
 ## How to run as a background job
 
