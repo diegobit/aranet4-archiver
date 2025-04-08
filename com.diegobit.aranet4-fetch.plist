@@ -2,25 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-    <string>com.diegobit.aranet4-fetch</string>
-    <key>Nice</key>
-    <integer>10</integer>
-    <key>ProcessType</key>
-    <string>Background</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>./aranet4-fetch.sh</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>StandardErrorPath</key>
-    <string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
-    <key>StandardOutPath</key>
-    <string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
-    <key>StartInterval</key>
-    <integer>10800</integer>
-    <key>WorkingDirectory</key>
-    <string>/Users/diego/Dev/aranet4-graphs</string>
+	<key>Label</key>
+	<string>com.diegobit.aranet4-fetch</string>
+	<key>Nice</key>
+	<integer>10</integer>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>./aranet4-fetch.sh</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
+	<key>StartInterval</key>
+	<integer>10800</integer>
+	<key>WorkingDirectory</key>
+	<string>/Users/diego/Dev/aranet4-archiver</string>
 </dict>
 </plist>
