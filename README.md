@@ -18,7 +18,8 @@ A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2
 
 ### Configuration
 
-- Setup in the `.env`:
+- `cp .env.example .env`
+- Required edits in `.env`:
    - Sensor name
    - MAC address (find it using `aranetctl --scan` from [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python))
 
