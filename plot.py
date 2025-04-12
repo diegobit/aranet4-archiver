@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 from dotenv import load_dotenv
 import fire
+import tzlocal
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -41,14 +42,13 @@ def main(
         print("Passed start_date. `days` argument won't be used.")
 
     db_path = os.path.expanduser(os.getenv("DB_PATH", ""))
-    local_timezone = os.getenv("LOCAL_TIMEZONE", "")
+    try:
+        local_timezone = tzlocal.get_localzone_name()
+    except Exception:
+        local_timezone = "UTC"
 
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at {db_path}")
-        return
-
-    if not local_timezone:
-        print("local_timezone not set. Have you configured .env ?")
         return
 
     if isinstance(sensors, tuple):

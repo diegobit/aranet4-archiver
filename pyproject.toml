@@ -10,4 +10,5 @@ dependencies = [
     "fire>=0.7.0",
     "matplotlib>=3.10.1",
     "pandas>=2.2.3",
+    "tzlocal>=5.3.1",
 ]
