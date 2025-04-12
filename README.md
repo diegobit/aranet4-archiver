@@ -27,14 +27,14 @@ A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2
 
 **Fetch measurements**
 
-- Use `fetch.py` to fetch the data from the aranet4 device and update a local sqlite db (default is `~/Documents/aranet4.db`)
+- Use `aranet4.py fetch` to fetch the data from the aranet4 device and update a local sqlite db (default is `~/Documents/aranet4.db`)
 
 **Plot measurements**
 
-- Use `plot.py` to plot measurements. Defaults to CO2 of last 3 days, run with `--help` to see all options.
+- Use `aranet4.py plot` to plot measurements. Defaults to CO2 of last 3 days, run with `--help` to see all options.
 
 **Print recent measurements**
-- Use `print.py` to quickly print the 10 most recent measurements. Can print oldest with `--oldest` or more measurements with `--n`
+- Use `aranet4.py print` to quickly print the 10 most recent measurements. Can print oldest with `--oldest` or more measurements with `--n`
 
 ## Automated Data Fetching (MacOS)
 

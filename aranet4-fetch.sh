@@ -3,5 +3,4 @@
 # The WorkingDirectory should be set by the launchd plist.
 # The purpose of this is to have it with a proper name in the Launch Items of MacOS
 
-# Execute the python script using uv
-/usr/local/bin/uv run fetch.py
+/usr/local/bin/uv run aranet4.py fetch
