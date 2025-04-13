@@ -5,15 +5,15 @@
 
 A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2 sensor. Built upon [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python)
 
-> [!NOTE]
-> If you are new to aranet4 scripting, you probably should have a look first at that repo before this one.
-
 ## Features:
 - Automatically fetch and archive measurements into a local sqlite3 (default to `~/Documents/aranet4.db`)
 - Plot full history.
 - Quickly print recent measurements.
 
 ## Quickstart
+
+> [!TIP]
+> If you are new to aranet4 scripting, you probably should have a look first at that repo before this one.
 
 ### Install
 
@@ -51,5 +51,6 @@ You probably want to run this periodically to not lose oldest measurements. You 
    launchctl load ~/Library/LaunchAgents/com.diegobit.aranet4-fetch.plist
    ```
 
-> **Note:** If not using uv, edit `aranet4-fetch.sh` to invoke Python appropriately.
+> [!NOTE]
+> If not using uv, edit `aranet4-fetch.sh` to invoke Python appropriately.
 
