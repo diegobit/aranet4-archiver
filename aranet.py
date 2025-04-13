@@ -128,11 +128,13 @@ class Aranet4Archiver:
                     entry.co2
                 ))
 
-            logging.info(f"Fetched {len(data)} measurements in range: ({entry_filter.get('start', 'beginning').isoformat() if 'start' in entry_filter else 'beginning'}, {entry_filter['end'].isoformat()})")
             cur.executemany(
                 'INSERT OR IGNORE INTO measurements VALUES(?, ?, ?, ?, ?, ?)', data
             )
             con.commit()
+
+            logging.info(f"Fetched {len(data)} measurements in range: ({entry_filter.get('start', 'beginning').isoformat() if 'start' in entry_filter else 'beginning'}, {entry_filter['end'].isoformat()})")
+
         else:
             logging.warning('Quitting, failed to fetch measurements.')
 
