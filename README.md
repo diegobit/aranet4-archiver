@@ -3,7 +3,10 @@
 > [!TIP]
 > For the MCP server version, see [aranet4-mcp-server](https://github.com/diegobit/aranet4-mcp-server)
 
-A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2 sensor. Built upon [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python) – *Note: If you are new to aranet4 scripting, first have a look at that repo before this one.*
+A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2 sensor. Built upon [Aranet4-Python](https://github.com/Anrijs/Aranet4-Python)
+
+> [!NOTE]
+> If you are new to aranet4 scripting, you probably should have a look first at that repo before this one.
 
 ## Features:
 - Automatically fetch and archive measurements into a local sqlite3 (default to `~/Documents/aranet4.db`)
