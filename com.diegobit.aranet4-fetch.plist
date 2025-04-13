@@ -15,12 +15,12 @@
 	<key>RunAtLoad</key>
 	<true/>
 	<key>StandardErrorPath</key>
-	<string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
+	<string>{{USER_HOME}}/Library/Logs/aranet4-fetch.log</string>
 	<key>StandardOutPath</key>
-	<string>/Users/diego/Library/Logs/aranet4-fetch.log</string>
+	<string>{{USER_HOME}}/Library/Logs/aranet4-fetch.log</string>
 	<key>StartInterval</key>
 	<integer>10800</integer>
 	<key>WorkingDirectory</key>
-	<string>/Users/diego/Dev/aranet4-archiver</string>
+	<string>{{PATH_TO_ARANET4_ARCHIVER_REPO}}</string>
 </dict>
 </plist>
