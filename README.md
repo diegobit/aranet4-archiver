@@ -15,6 +15,10 @@ A simple tool to fetch, store, and visualize historical data from an Aranet4 CO2
 > [!TIP]
 > If you are new to aranet4 scripting, you probably should have a look first at that repo before this one.
 
+### Requirements
+
+An Aranet4 device already paired. The device uses BLE, so it won't be shown in regular bluetooth search. On MacOS, one way is to install LightBlue from the App Store.
+
 ### Install
 
 - **Recommended (with [uv](https://docs.astral.sh/uv/))**: Nothing to do. The provided `pyproject.toml` handles dependencied and virtual environments.
